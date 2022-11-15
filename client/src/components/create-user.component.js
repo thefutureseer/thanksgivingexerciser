@@ -7,10 +7,10 @@ export default function CreateUser() {
       username: ''
     };
 
-  const [state, setState] = useState(initialState);
+  const [userState, setUser] = useState(initialState);
 
   const onChangeUsername = (e) => {
-    setState({
+    setUser({
       username: e.target.value
     });
   };
@@ -19,14 +19,14 @@ export default function CreateUser() {
     e.preventDefault();
 
     const user = {
-      username: state.username
+      username: userState.username
     };
 
      console.log(user);
 
     axios.post('http://localhost:5000/users/add', user)
       .then(res => console.log(res.data));
-        setState({
+        setUser({
           username: ''
         })
   }
@@ -40,7 +40,7 @@ export default function CreateUser() {
             <input  type="text"
                 required
                 className="form-control"
-                value={state.username}
+                value={userState.username}
                 onChange={onChangeUsername}
                 />
           </div>
