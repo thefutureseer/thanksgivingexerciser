@@ -52,13 +52,9 @@ export default function CreateExercise() {
       date: exState.date
     };
 
-    console.log("this is exercise ", exercise, " this is state: ", exState);
+    // console.log("this is exercise ", exercise, " this is state: ", exState);
 
-    axios.post('http://localhost:5000/exercises/add', exercise, {
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
+    axios.post('http://localhost:5000/exercises/add', exercise)
       .then(res => console.log(res.data));
 
     window.location = '/';
