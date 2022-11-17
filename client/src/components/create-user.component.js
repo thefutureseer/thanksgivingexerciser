@@ -1,25 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function CreateUser() {
+
   
   const initialState = {
-      username: ''
-    };
-
+    username: '',
+    id: 0
+  };
+  
   const [userState, setUser] = useState(initialState);
-
+  
+  
   const onChangeUsername = (e) => {
     setUser({
+      ...userState,
       username: e.target.value
     });
   };
+  
+  useEffect(() => {    
+    const randomID = () => {
+     const newId = Math.floor(Math.random()*10000);
+
+      setUser({
+        ...userState, 
+        id : newId})
+
+    }
+    randomID();
+
+   }, [])
 
   const onSubmit = (e) => {
     e.preventDefault();
 
     const user = {
-      username: userState.username
+      username: userState.username,
+      id: userState.id
     };
 
      console.log(user);
@@ -27,7 +45,8 @@ export default function CreateUser() {
     axios.post('http://localhost:5000/users/add', user)
       .then(res => console.log(res.data));
         setUser({
-          username: ''
+          username: '',
+          id: 0
         })
   }
 

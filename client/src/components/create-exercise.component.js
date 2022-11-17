@@ -29,7 +29,7 @@ export default function CreateExercise() {
   }, []);
 
   const onChange = (e) => {
-    const type = e.target.type;
+    // const type = e.target.type;
     const name = e.target.name;
     const value = e.target.value;
 
@@ -102,8 +102,8 @@ export default function CreateExercise() {
             type="text" 
             className="form-control"
             name="duration"
-            onChange={onChange}
             value={exState.duration}
+            onChange={onChange}
             />
       </div>
       <div className="form-group">

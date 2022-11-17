@@ -10,6 +10,9 @@ const userSchema = new Schema({
     trim: true,
     minlength: 3
   },
+  id: {
+    type: Number
+  },
 }, {
   timestamps: true,
 });
