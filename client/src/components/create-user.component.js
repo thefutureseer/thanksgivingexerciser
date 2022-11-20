@@ -6,7 +6,6 @@ export default function CreateUser() {
   
   const initialState = {
     username: '',
-    id: 0
   };
   
   const [userState, setUser] = useState(initialState);
@@ -18,35 +17,20 @@ export default function CreateUser() {
       username: e.target.value
     });
   };
-  
-  useEffect(() => {    
-    const randomID = () => {
-     const newId = Math.floor(Math.random()*10000);
-
-      setUser({
-        ...userState, 
-        id : newId})
-
-    }
-    randomID();
-
-   }, [])
 
   const onSubmit = (e) => {
     e.preventDefault();
 
     const user = {
-      username: userState.username,
-      id: userState.id
+      username: userState.username
     };
 
-     console.log(user);
+    //  console.log(user);
 
     axios.post('http://localhost:5000/users/add', user)
       .then(res => console.log(res.data));
         setUser({
-          username: '',
-          id: 0
+          username: ''
         })
   }
 

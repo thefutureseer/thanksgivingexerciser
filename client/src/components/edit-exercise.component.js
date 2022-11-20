@@ -10,25 +10,19 @@ export default function EditExercise(props) {
     description: '',
     duration: 0,
     date: new Date(),
-    // _id,
     users: []
   }
 
   const [editExState, setEditExState] = useState(initial);
 
-  useEffect(()=>{
-    // const params = _id;
-
-    axios.get('http://localhost:5000/exercises/'+ props.exercise._id)
+  useEffect(() => {
+    axios.get('http://localhost:5000/exercises/'+ props.match.params.id)
      .then(response => {
-       console.log("res.dat.id")
-       console.log(response.data._id);
        setEditExState({
          username: response.data.username,
          description: response.data.description,
          duration: response.data.duration,
          date: new Date(response.data.date),
-        //  _id: _id
        })
      })
      .catch(function(error) {
@@ -52,7 +46,6 @@ export default function EditExercise(props) {
   }, [])
 
   const onChange= (e) => {
-    // const type = e.target.type;
     const name = e.target.name;
     const value = e.target.value;
     setEditExState( (...prevState) => ({
@@ -62,12 +55,6 @@ export default function EditExercise(props) {
     )
 console.log("current state item:name, value ", name, value )
   }
-
-  // const onChangeDate = (date) => {
-  //   setEditExState({
-  //     date: date
-  //   })
-  // }
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -81,10 +68,8 @@ console.log("current state item:name, value ", name, value )
 
     console.log(exercise);
 
-    // const params = { answer: editExState._id };
-
-    axios.post('http://localhost:5000/exercises/update' + props.exercise._id, exercise)
-      .then(res => console.log(res.data));
+    axios.post('http://localhost:5000/exercises/update' + props.match.params.id, exercise)
+      .then(res => {console.log("line 84:"), console.log(res.data)});
 
     window.location = '/';
   }
