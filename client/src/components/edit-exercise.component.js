@@ -1,99 +1,113 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function EditExercise(props) {
+export default class EditExercise extends Component {
+  constructor(props) {
+    super(props);
 
-  const initial = {
-    username: '',
-    description: '',
-    duration: 0,
-    date: new Date(),
-    users: []
+    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangeDescription = this.onChangeDescription.bind(this);
+    this.onChangeDuration = this.onChangeDuration.bind(this);
+    this.onChangeDate = this.onChangeDate.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+
+    this.state = {
+      username: '',
+      description: '',
+      duration: 0,
+      date: new Date(),
+      users: []
+    }
   }
 
-  const [editExState, setEditExState] = useState(initial);
-
-  useEffect(() => {
-    axios.get('http://localhost:5000/exercises/'+ props.match.params.id)
+  componentDidMount() {
+    axios.get('http://localhost:5000/exercises/' + this.props.match.params.id)
      .then(response => {
-       setEditExState({
+       this.setState({
          username: response.data.username,
          description: response.data.description,
          duration: response.data.duration,
-         date: new Date(response.data.date),
+         date: new Date(response.data.date)
        })
      })
      .catch(function(error) {
-       console.log("error line 33: "+error);
+       console.log(error);
      })
 
     axios.get('http://localhost:5000/users/')
       .then(response => {
-        console.log(response.data[0]._id);
-
         if (response.data.length > 0) {
-          setEditExState({
+          this.setState({
             users: response.data.map(user => user.username)
           })
         }
       })
       .catch((error) => {
-        console.log("line 49 eror")
         console.log(error);
       })
-  }, [])
-
-  const onChange= (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setEditExState( (...prevState) => ({
-      ...prevState,
-      [name]: value
-      })
-    )
-console.log("current state item:name, value ", name, value )
   }
 
-  const onSubmit = (e) => {
+  onChangeUsername(e) {
+    this.setState({
+      username: e.target.value
+    })
+  }
+
+  onChangeDescription(e) {
+    this.setState({
+      description: e.target.value
+    })
+  }
+
+  onChangeDuration(e) {
+    this.setState({
+      duration: e.target.value
+    })
+  }
+
+  onChangeDate(date) {
+    this.setState({
+      date: date
+    })
+  }
+
+  onSubmit(e) {
     e.preventDefault();
 
     const exercise = {
-      username: editExState.username,
-      description: editExState.description,
-      duration: editExState.duration,
-      date: editExState.date
+      username: this.state.username,
+      description: this.state.description,
+      duration: this.state.duration,
+      date: this.state.date
     }
 
     console.log(exercise);
 
-    axios.post('http://localhost:5000/exercises/update' + props.match.params.id, exercise)
-      .then(res => {console.log("line 84:"), console.log(res.data)});
+    axios.post('http://localhost:5000/exercises/update/' + this.props.match.params.id, exercise)
+      .then(res => console.log(res.data));
 
     window.location = '/';
   }
 
-  const contextJSX = (
+  render() {
+    return (
     <div>
       <h3>Edit Exercise Log</h3>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={this.onSubmit}>
         <div className="form-group"> 
           <label>Username: </label>
-          <select 
-          // ref="userInput"
+          <select ref="userInput"
               required
-              name="username"
               className="form-control"
-              value={editExState.username}
-              onChange={onChange}>
+              value={this.state.username}
+              onChange={this.onChangeUsername}>
               {
-                editExState.users.map(function(user) {
+                this.state.users.map(function(user) {
                   return <option 
-                    name={user.value}
                     key={user}
-                    value={editExState.value}>
-                      {user}
+                    value={user}>{user}
                     </option>;
                 })
               }
@@ -101,33 +115,28 @@ console.log("current state item:name, value ", name, value )
         </div>
         <div className="form-group"> 
           <label>Description: </label>
-          <input  
-              type="text"
-              name="description"
+          <input  type="text"
               required
               className="form-control"
-              value={editExState.description}
-              onChange={onChange}
+              value={this.state.description}
+              onChange={this.onChangeDescription}
               />
         </div>
         <div className="form-group">
           <label>Duration (in minutes): </label>
           <input 
-              name="duration"
               type="text" 
               className="form-control"
-              value={editExState.duration}
-              onChange={onChange}
+              value={this.state.duration}
+              onChange={this.onChangeDuration}
               />
         </div>
         <div className="form-group">
           <label>Date: </label>
           <div>
             <DatePicker
-              name="date"
-              selected={editExState.date}
-
-              onChange={onChange}
+              selected={this.state.date}
+              onChange={this.onChangeDate}
             />
           </div>
         </div>
@@ -137,8 +146,6 @@ console.log("current state item:name, value ", name, value )
         </div>
       </form>
     </div>
-    );
-
-  return contextJSX;
-  
+    )
+  }
 }
