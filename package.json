@@ -1,0 +1,34 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "thanksgiving-exercise-tracker-install": "npm install --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"cd client && npm run start\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "keywords": [],
+  "author": "Tannehill",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^5.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.3.4",
+    "mongoose": "^5.13.15"
+  },
+  "devDependencies": {},
+  "description": "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thefutureseer/thanksgivingexerciser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thefutureseer/thanksgivingexerciser/issues"
+  },
+  "homepage": "https://github.com/thefutureseer/thanksgivingexerciser#readme"
+}
