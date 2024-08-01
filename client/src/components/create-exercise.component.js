@@ -23,7 +23,9 @@ export default class CreateExercise extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/users/')
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
+    axios.get(`${apiUrl}/users/`)
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
@@ -71,7 +73,7 @@ export default class CreateExercise extends Component {
 
     console.log(exercise);
 
-    axios.post('http://localhost:5000/exercises/add', exercise)
+    axios.post(`${apiUrl}/exercises/add`, exercise)
       .then(res => console.log(res.data));
 
     window.location = '/';

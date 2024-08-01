@@ -23,7 +23,9 @@ export default class EditExercise extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/exercises/' + this.props.match.params.id)
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
+    axios.get(`${apiUrl}/exercises/` + this.props.match.params.id)
      .then(response => {
        this.setState({
          username: response.data.username,
@@ -36,7 +38,7 @@ export default class EditExercise extends Component {
        console.log(error);
      })
 
-    axios.get('http://localhost:5000/users/')
+    axios.get(`${apiUrl}/users/`)
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
@@ -85,7 +87,7 @@ export default class EditExercise extends Component {
 
     console.log(exercise);
 
-    axios.post('http://localhost:5000/exercises/update/' + this.props.match.params.id, exercise)
+    axios.post(`${apiUrl}/exercises/update/` + this.props.match.params.id, exercise)
       .then(res => console.log(res.data));
 
     window.location = '/';
