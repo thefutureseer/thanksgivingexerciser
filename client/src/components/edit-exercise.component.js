@@ -23,7 +23,7 @@ export default class EditExercise extends Component {
   }
 
   componentDidMount() {
-    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    const apiUrl = "https://thanksgivingexerciser.onrender.com" || 'http://localhost:5000';
 
     axios.get(`${apiUrl}/exercises/` + this.props.match.params.id)
      .then(response => {

@@ -1,0 +1,8 @@
+{
+  "name": "stack",
+  "version": "1.0.0",
+  "main": "backend/server.js",
+  "repository": "git@github.com:thefutureseer/thanksgivingexerciser.git",
+  "author": "thefutureseer <danielharrislimos@outlook.com>",
+  "license": "MIT"
+}

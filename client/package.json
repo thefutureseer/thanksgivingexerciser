@@ -15,11 +15,11 @@
   "scripts": {
     "start": "PORT=3000 react-scripts start",
     "start-too": "react-scripts start",
-    "react-scripts build": "react-scripts build && mv build ./public",
+    "build": "react-scripts build && mv build ../",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "vercel-build": "react-scripts build"
   },
- 
   "browserslist": {
     "production": [
       ">0.2%",
